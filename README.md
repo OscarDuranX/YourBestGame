@@ -14,13 +14,14 @@ Podras filtrar el joc amb categories.
 ## Instal·lació
 
 - Clonem el projecte i accedim a ell:
+
 git clone https://github.com/OscarDuranX/YourBestGame.git
 cd YourBestGame
 
 - Clonarem el fitxer '.env.example' per a poder utiltizarlo(important):
 
 mv .env.example .env
-
+git
 
 composer install
 npm install
