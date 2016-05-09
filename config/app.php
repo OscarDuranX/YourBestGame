@@ -156,6 +156,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Laravel\Socialite\SocialiteServiceProvider::class,
+
+
         Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider::class,
 
         # Providers installed below are installed by acacha llum:
@@ -211,6 +214,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'AdminLTE' => Acacha\AdminLTETemplateLaravel\Facades\AdminLTE::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
         # Alias installed below are installed by acacha llum:
         # https://github.com/acacha/llum
