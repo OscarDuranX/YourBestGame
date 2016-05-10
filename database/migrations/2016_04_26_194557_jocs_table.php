@@ -18,7 +18,9 @@ class JocsTable extends Migration
             $table->string('imatge');
             $table->string('URL')->unique();
             $table->string('categoria');
-            $table->string('idUser');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('user');
+
             $table->rememberToken();
             $table->timestamps();
         });

@@ -15,9 +15,9 @@ class Joc extends Model
 {
     protected $table='jocs';
 
-    protected $fillable = ['user_id','nom','imatge','URL','categoria'];
+    protected $fillable = ['nom','imatge','URL','categoria'];
 
-    protected $hidden = ['updated_at'];
+    protected $hidden = ['created_at','updated_at'];
 
     public function user()
     {
