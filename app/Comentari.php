@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class comentari extends Model
 {
+    protected $table="comentaris";
     /**
      * The attributes that are mass assignable.
      *
@@ -24,7 +25,7 @@ class comentari extends Model
         'created_at','updated_at'
     ];
 
-    public function jocs()
+    public function joc()
     {
         return $this->belongsTo('App\Joc');
     }

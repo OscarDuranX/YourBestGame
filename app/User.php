@@ -6,13 +6,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+
+    protected $table="users";
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email','password'
     ];
 
     /**
@@ -21,10 +23,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token','created_at','updated_at'
+         'remember_token','created_at','updated_at'
     ];
 
-    public function jocs()
+    public function joc()
     {
         return $this->hasMany('App\Joc');
     }

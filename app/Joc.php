@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Joc extends Model
 {
-    protected $table='jocs';
+    protected $table="jocs";
 
     protected $fillable = ['nom','imatge','URL','categoria'];
 
@@ -22,5 +22,10 @@ class Joc extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function comentari()
+    {
+        return $this->hasMany('App\Comentari');
     }
 }

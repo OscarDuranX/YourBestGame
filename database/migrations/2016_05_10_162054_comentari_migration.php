@@ -12,7 +12,7 @@ class ComentariMigration extends Migration
      */
     public function up()
     {
-        Schema::create('Comentari', function (Blueprint $table) {
+        Schema::create('comentaris', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nomuser');
             $table->string('comentari');
@@ -30,6 +30,6 @@ class ComentariMigration extends Migration
      */
     public function down()
     {
-        Schema::drop('Comentari');
+        Schema::drop('comentaris');
     }
 }

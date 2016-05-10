@@ -15,10 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $faker = Faker\Factory::create();
+        //$faker = Faker\Factory::create();
 
-        $this->SeedUserProva($faker);
-        // $this->call(UsersTableSeeder::class);
+        //$this->SeedUserProva($faker);
+        $this->call(UsersTableSeeder::class);
+        $this->call(JocsTableSeeder::class);
+        $this->call(ComentsJocsTableSeeder::class);
     }
 
     private function SeedUserProva($faker)
