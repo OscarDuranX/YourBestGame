@@ -17,3 +17,11 @@ Route::get('/', function () {
 
 Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
 Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
+
+Route::resource('user.comentari','UserJocController',[ 'except'=>['show','edit','create']]);
+
+Route::resource('joc','JocController',[ 'only'=>['index','show'] ]);
+
+Route::resource('joc.comentari','JocComentariController',[ 'except'=>['show','edit','create']]);
+
+Route::resource('comentari','ComentariController',[ 'only'=>['index','show'] ]);

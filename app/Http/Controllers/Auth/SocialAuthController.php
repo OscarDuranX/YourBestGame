@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Laravel\Socialite\Facades\Socialite;
@@ -73,7 +73,7 @@ class SocialAuthController extends Controller
 
     private function newUser()
     {
-        $user_model = Config::get('max-socialite.model');
+        $user_model = Config::get('socialite.model');
         return new $user_model;
     }
 
