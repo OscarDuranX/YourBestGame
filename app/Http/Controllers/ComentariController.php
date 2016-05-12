@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\comentari;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,8 +16,7 @@ class ComentariController extends Controller
      */
     public function index()
     {
-        // Devolverá todos los fabricantes.
-        return "Mostrando todos los fabricantes de la base de datos.";
+        return response()->json(['status'=>'ok','data'=>Comentari::all()], 200);
     }
 
     /**
@@ -49,8 +49,17 @@ class ComentariController extends Controller
      */
     public function show($id)
     {
-        //
-        return "Se muestra Fabricante con id: $id";
+        $comentari=Comentari::find($id);
+
+        // Si no existe ese fabricante devolvemos un error.
+        if (!$comentari)
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
+            // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra un user con ese código.'])],404);
+        }
+
+        return response()->json(['status'=>'ok','data'=>$comentari],200);
     }
 
     /**

@@ -26,7 +26,7 @@ class User extends Authenticatable
          'remember_token','created_at','updated_at'
     ];
 
-    public function joc()
+    public function jocs()
     {
         return $this->hasMany('App\Joc');
     }

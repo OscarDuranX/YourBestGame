@@ -2,16 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 class UserJocController extends Controller
 {
-    public function index($idFabricante)
+
+    public function __construct()
     {
-        // Devolverá todos los aviones.
-        return "Mostrando los aviones del fabricante con Id $idFabricante";
+//               $this->middleware('auth');
+        //TODO Descomentar permis d'usuari per accedir als metodes POST!
+    }
+
+    public function index()
+    {
+
+
+        $iduser=Auth::user()->id;
+
+        $user=User::find($iduser);
+
+        if (! $user)
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
+            // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra un user con ese código.'])],404);
+        }
+
+        return response()->json(['status'=>'ok','data'=>$user->jocs()->get()],200);
+        //return response()->json(['status'=>'ok','data'=>$fabricante->aviones],200);
     }
 
     /**
@@ -30,9 +52,13 @@ class UserJocController extends Controller
      *
      * @return Response
      */
-    public function store()
+    public function store(Request $requests)
     {
-        //
+
+        $nomprova = $requests->input('Prova');
+        dd($nomprova);
+
+
     }
 
     /**

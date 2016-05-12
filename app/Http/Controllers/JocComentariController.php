@@ -2,16 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Joc;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
 class JocComentariController extends Controller
 {
-    public function index($idFabricante)
+    public function index($idJoc)
     {
-        // Devolverá todos los aviones.
-        return "Mostrando los aviones del fabricante con Id $idFabricante";
+        $joc=Joc::find($idJoc);
+
+        if (! $joc)
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
+            // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra un joc con ese código.'])],404);
+        }
+
+        return response()->json(['status'=>'ok','data'=>$joc->comentari()->get()],200);
+        //return response()->json(['status'=>'ok','data'=>$fabricante->aviones],200);
     }
 
     /**
