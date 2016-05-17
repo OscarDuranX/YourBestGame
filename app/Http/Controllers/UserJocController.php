@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Joc;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Response;
 
 class UserJocController extends Controller
 {
 
     public function __construct()
     {
-//               $this->middleware('auth');
+//        $this->middleware('auth.basic',['only'=>['store','update','destroy']]);
         //TODO Descomentar permis d'usuari per accedir als metodes POST!
     }
 
     public function index()
     {
-
-
         $iduser=Auth::user()->id;
 
         $user=User::find($iduser);
@@ -37,28 +37,44 @@ class UserJocController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create($idFabricante)
-    {
-        //
-        return "Se muestra formulario para crear un avión del fabricante $idFabricante.";
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-    public function store(Request $requests)
+    public function store(Request $request)
     {
 
-        $nomprova = $requests->input('Prova');
-        dd($nomprova);
+       /* $nomprova = $request->input('Prova');
+        dd($request->input('user_id'));*/
 
+        // Primero comprobaremos si estamos recibiendo todos los campos.
+        if (!$request->input('nom') || !$request->input('imatge') || !$request->input('URL') || !$request->input('categoria'))
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 422 Unprocessable Entity – [Entidad improcesable] Utilizada para errores de validación.
+            // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+            return response()->json(['errors'=>array(['code'=>422,'message'=>'Faltan datos necesarios para el proceso de alta.'])],422);
+        }
 
+        // Insertamos una fila en Jocs con create pasándole todos los datos recibidos.
+        // En $request->all() tendremos todos los campos del formulario recibidos.
+        //dd($request->all());
+
+//        $iduser=Auth::user()->id;
+//
+        $user=User::find($request->input('user_id'));
+//
+        if (!$user)
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
+            // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra el usuario con ese código.'])],404);
+        }
+//
+        $nuevoJuego=$user->jocs()->create($request->all());
+
+        $response = Response::make(json_encode(['data'=>$nuevoJuego]), 201)->header('Location', 'http://localhost:8000/joc/'.$nuevoJuego->id)->header('Content-Type', 'application/json');
+
+        return $response;
     }
 
     /**
@@ -73,27 +89,103 @@ class UserJocController extends Controller
         return "Se muestra avión $idAvion del fabricante $idFabricante";
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($idFabricante,$idAvion)
+    public function update(Request $request, $idjoc)
     {
-        //
-        return "Se muestra formulario para editar el avión $idAvion del fabricante $idFabricante";
-    }
+        // Comprobamos si el fabricante que nos están pasando existe o no.
+        //dd($idjoc);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update($idFabricante,$idAvion)
-    {
-        //
+        //TODO methode update provisional, arreglar idjoc per passar per formulari (action)
+        //$iduser=Auth::user()->id;
+
+        $user=User::find(2);
+
+        //dd($user);
+
+        $joc=$user->jocs()->find(2);
+
+        //dd($joc);
+
+        //$joc=Joc::find($id);
+
+        // Si no existe ese fabricante devolvemos un error.
+        if (!$joc)
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
+            // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra un juego con ese codigo.'])],404);
+        }
+
+        // Listado de campos recibidos teóricamente.
+        $nombre=$request->input('nom');
+        $imatge=$request->input('imatge');
+        $URL=$request->input('URL');
+        $categoria=$request->input('categoria');
+
+
+        // Necesitamos detectar si estamos recibiendo una petición PUT o PATCH.
+        // El método de la petición se sabe a través de $request->method();
+        if ($request->method() === 'PATCH')
+        {
+            // Creamos una bandera para controlar si se ha modificado algún dato en el método PATCH.
+            $flag = false;
+
+            // Actualización parcial de campos.
+            if ($nombre)
+            {
+                $joc->nom = $nombre;
+                $flag=true;
+            }
+
+            if ($imatge)
+            {
+                $joc->imatge = $imatge;
+                $flag=true;
+            }
+
+
+            if ($URL)
+            {
+                $joc->URL = $URL;
+                $flag=true;
+            }
+
+
+            if ($categoria)
+            {
+                $joc->categoria = $categoria;
+                $flag=true;
+            }
+
+            if ($flag)
+            {
+                // Almacenamos en la base de datos el registro.
+                $joc->save();
+                return response()->json(['status'=>'ok','data'=>$joc], 200);
+            }
+            else
+            {
+                // Se devuelve un array errors con los errores encontrados y cabecera HTTP 304 Not Modified – [No Modificada] Usado cuando el cacheo de encabezados HTTP está activo
+                // Este código 304 no devuelve ningún body, así que si quisiéramos que se mostrara el mensaje usaríamos un código 200 en su lugar.
+                return response()->json(['errors'=>array(['code'=>304,'message'=>'No se ha modificado ningún dato de joc.'])],304);
+            }
+        }
+
+
+        // Si el método no es PATCH entonces es PUT y tendremos que actualizar todos los datos.
+        if (!$nombre || !$imatge || !$URL || !$categoria)
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 422 Unprocessable Entity – [Entidad improcesable] Utilizada para errores de validación.
+            return response()->json(['errors'=>array(['code'=>422,'message'=>'Faltan valores para completar el procesamiento.'])],422);
+        }
+
+        $joc->nom = $nombre;
+        $joc->imatge = $imatge;
+        $joc->URL = $URL;
+        $joc->categoria = $categoria;
+
+        // Almacenamos en la base de datos el registro.
+        $joc->save();
+        return response()->json(['status'=>'ok','data'=>$joc], 200);
     }
 
     /**
