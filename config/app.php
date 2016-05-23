@@ -158,6 +158,8 @@ return [
 
         Laravel\Socialite\SocialiteServiceProvider::class,
 
+        'Barryvdh\Cors\ServiceProvider',
+
 
         Acacha\AdminLTETemplateLaravel\Providers\AdminLTETemplateServiceProvider::class,
 

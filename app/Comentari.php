@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class comentari extends Model
 {
-    protected $table="comentaris";
+    //protected $table="comentaris";
     /**
      * The attributes that are mass assignable.
      *

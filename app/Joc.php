@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Joc extends Model
 {
-    protected $table="jocs";
+    //protected $table="jocs";
 
     protected $fillable = ['nom','imatge','URL','categoria'];
 

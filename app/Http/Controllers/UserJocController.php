@@ -23,6 +23,7 @@ class UserJocController extends Controller
     {
         $iduser=Auth::user()->id;
 
+        dd(Auth::user());
         $user=User::find($iduser);
 
         if (! $user)
@@ -94,16 +95,18 @@ class UserJocController extends Controller
         // Comprobamos si el fabricante que nos están pasando existe o no.
         //dd($idjoc);
 
-        //TODO methode update provisional, arreglar idjoc per passar per formulari (action)
+        //TODO methode update provisional, arreglar iduser per comprovar que estigue logejat
         //$iduser=Auth::user()->id;
+
+
 
         $user=User::find(2);
 
         //dd($user);
 
-        $joc=$user->jocs()->find(2);
+        $joc=$user->jocs()->find($idjoc);
 
-        //dd($joc);
+        dd($joc);
 
         //$joc=Joc::find($id);
 
@@ -194,8 +197,44 @@ class UserJocController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($idFabricante,$idAvion)
+    public function destroy($idJoc)
     {
-        //
+        //$iduser=Auth::user()->id;
+        $user=User::find(2);
+
+        //Todo Arreglar per comprovar usuari logejat, llevar comentat
+
+        //dd($user);
+
+
+        // Si no existe ese usuario devolvemos un error.
+        if (!$user)
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
+            // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra un usuario con ese código.'])],404);
+        }
+
+        // El usuario existe entonces buscamos el juego que queremos borrar asociado a ese usuario.
+
+        //dd($idJoc);
+        $joc = $user->jocs()->find($idJoc);
+        //$joc=Joc::all();
+        //dd($joc);
+
+        // Si no existe ese juego devolvemos un error.
+        if (!$joc)
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
+            // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra un juego con ese código asociado a ese fabricante.'])],404);
+        }
+
+        // Procedemos por lo tanto a eliminar el juego.
+        $joc->delete();
+
+        // Se usa el código 204 No Content – [Sin Contenido] Respuesta a una petición exitosa que no devuelve un body (como una petición DELETE)
+        // Este código 204 no devuelve body así que si queremos que se vea el mensaje tendríamos que usar un código de respuesta HTTP 200.
+        return response()->json(['code'=>204,'message'=>'Se ha eliminado el juego correctamente.'],204);
     }
 }

@@ -25,6 +25,7 @@ class UsersTableSeeder extends Seeder
                     'name' => $faker->name,
                     'email' => $faker->safeEmail,
                     'password'=>$faker->password(),
+                    'api_token'=>md5(uniqid(rand(), true)),
 
                 ]
             );

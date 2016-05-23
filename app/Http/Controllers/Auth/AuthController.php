@@ -63,10 +63,14 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
+        //dd($data['_token']);
         return User::create([
+
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'api_token' => md5(uniqid(rand(), true)),
+
         ]);
     }
 }
