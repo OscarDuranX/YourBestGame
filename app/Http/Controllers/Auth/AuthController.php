@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -72,5 +74,28 @@ class AuthController extends Controller
             'api_token' => md5(uniqid(rand(), true)),
 
         ]);
+    }
+
+    public function ApiLogin(Request $request)
+    {
+        //dd($data['contrasenya']);
+
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Authentication passed...
+
+            dd(Auth::user()->api_token);
+            //return redirect()->intended('auth.home');
+        }else{
+            dd("gaay");
+            return redirect()->route('login');
+        }
+
+
     }
 }

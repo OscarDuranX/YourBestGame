@@ -23,7 +23,7 @@ class UserJocController extends Controller
     {
         $iduser=Auth::user()->id;
 
-        dd(Auth::user());
+        //dd(Auth::user());
         $user=User::find($iduser);
 
         if (! $user)

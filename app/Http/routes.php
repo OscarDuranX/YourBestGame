@@ -15,14 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
-Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
+//Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
+//Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
+
+    Route::get('joc','JocController@index');
+    Route::post('api/login','Auth\AuthController@ApiLogin');
 
 
-Route::resource('user/joc','UserJocController');
 
-Route::resource('joc','JocController',[ 'only'=>['index','show'] ]);
 
-Route::resource('joc/comentari','JocComentariController',[ 'except'=>['show','edit','create']]);
-
-Route::resource('comentari','ComentariController',[ 'only'=>['index','show'] ]);
