@@ -80,20 +80,20 @@ class AuthController extends Controller
     {
         //dd($data['contrasenya']);
 
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+//        $this->validate($request, [
+//            'email' => 'required|email',
+//            'password' => 'required'
+//        ]);
 
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             // Authentication passed...
 
-            dd(Auth::user()->api_token);
+            return Auth::user()->api_token;
             //return redirect()->intended('auth.home');
         }else{
-            dd("gaay");
-            return redirect()->route('login');
+           // return redirect()->route('login');
+            return "false";
         }
 
 

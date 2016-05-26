@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Joc;
 use App\User;
 use Auth;
+use DB;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,12 +20,14 @@ class UserJocController extends Controller
         //TODO Descomentar permis d'usuari per accedir als metodes POST!
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $iduser=Auth::user()->id;
+        //$iduser=Auth::user()->id;
+
+        $selectUser = DB::table('users')->where('api_token', $request->api_token)->first();
 
         //dd(Auth::user());
-        $user=User::find($iduser);
+        $user=User::find($selectUser->id);
 
         if (! $user)
         {

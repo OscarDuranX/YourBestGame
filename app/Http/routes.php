@@ -18,8 +18,7 @@ Route::get('/', function () {
 //Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
 //Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
 
-    Route::get('joc','JocController@index');
-    Route::post('api/login','Auth\AuthController@ApiLogin');
+
 
 
 
