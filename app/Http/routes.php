@@ -18,7 +18,11 @@ Route::get('/', function () {
 //Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToProvider');
 //Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback');
 
+Route::group(['middleware' => 'cors'], function(){
+    Route::resource('joc','JocController',[ 'only'=>['index'] ]);
+    Route::post('api/login','Auth\AuthController@ApiLogin');
 
+});
 
 
 
