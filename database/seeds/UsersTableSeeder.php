@@ -29,5 +29,15 @@ class UsersTableSeeder extends Seeder
                 ]
             );
         }
+
+        User::create(
+            [
+                'name' => 'prova',
+                'email' => 'prova@prova.com',
+                'password'=>bcrypt('provaprova'),
+                'api_token'=>md5(uniqid(rand(), true)),
+            ]
+        );
+
     }
 }

@@ -35,8 +35,8 @@ php artisan migration
 
 No supported encrypter found. The cipher and / or key length are invalid.
 
-- Tindrem que anar a /conifg/app.php y canviar el següent valor:
+- Tindrem que ejecutar la següent comanda:
 
-'cipher' => 'AES-256-CBC', 
-per aquest : 'AES-128-CBC'
+php artisan key:generate
+
 
