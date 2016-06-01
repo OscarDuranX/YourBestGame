@@ -18,11 +18,25 @@ Podras filtrar el joc amb categories.
 git clone https://github.com/OscarDuranX/YourBestGame.git
 cd YourBestGame
 
-- Clonarem el fitxer '.env.example' per a poder utiltizarlo(important):
+- Clonarem el fitxer '.env.example' per a poder utiltizarlo(important), es te que editar el .env amb les dades de la DB que usaras(DB_HOST - DB_DATABASE - DB_USERNAME - DB_PASSWORD):
 
 mv .env.example .env
-git
+
+
+- A continuació instl·larem els moduls del composer amb la següent comanda:
 
 composer install
-npm install
+
+- Després tindrem que crear la base de dades al teu Mysql, una volta cret ejecutarem la comanda següent per a crear les taules:
+
+php artisan migration
+
+- Si a la hora de ejecutar ens surt aquest error:
+
+No supported encrypter found. The cipher and / or key length are invalid.
+
+- Tindrem que anar a /conifg/app.php y canviar el següent valor:
+
+'cipher' => 'AES-256-CBC', 
+per aquest : 'AES-128-CBC'
 
