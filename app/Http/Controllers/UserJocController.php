@@ -47,9 +47,8 @@ class UserJocController extends Controller
      */
     public function store(Request $request)
     {
-
-       /* $nomprova = $request->input('Prova');
-        dd($request->input('user_id'));*/
+        //Busquem Usuari amb el Api_Token
+        $selectUser = DB::table('users')->where('api_token', $request->api_token)->first();
 
         // Primero comprobaremos si estamos recibiendo todos los campos.
         if (!$request->input('nom') || !$request->input('imatge') || !$request->input('URL') || !$request->input('categoria'))
@@ -59,13 +58,8 @@ class UserJocController extends Controller
             return response()->json(['errors'=>array(['code'=>422,'message'=>'Faltan datos necesarios para el proceso de alta.'])],422);
         }
 
-        // Insertamos una fila en Jocs con create pasándole todos los datos recibidos.
-        // En $request->all() tendremos todos los campos del formulario recibidos.
-        //dd($request->all());
-
-//        $iduser=Auth::user()->id;
-//
-        $user=User::find($request->input('user_id'));
+       //Cerquem l'usuari
+        $user=User::find($selectUser->id);
 //
         if (!$user)
         {
@@ -73,9 +67,10 @@ class UserJocController extends Controller
             // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
             return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra el usuario con ese código.'])],404);
         }
-//
+        //Creem el nou joc amb les dades entrades a traves del usuari
         $nuevoJuego=$user->jocs()->create($request->all());
 
+        //Enviem la resposta per a comprovar que tot hagi anat bé
         $response = Response::make(json_encode(['data'=>$nuevoJuego]), 201)->header('Location', 'http://localhost:8000/joc/'.$nuevoJuego->id)->header('Content-Type', 'application/json');
 
         return $response;
@@ -87,10 +82,10 @@ class UserJocController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($idFabricante,$idAvion)
+    public function show()
     {
-        //
-        return "Se muestra avión $idAvion del fabricante $idFabricante";
+
+
     }
 
     public function update(Request $request, $idjoc)
