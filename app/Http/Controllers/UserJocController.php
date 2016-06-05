@@ -49,11 +49,13 @@ class UserJocController extends Controller
      */
     public function store(Request $request)
     {
+        //return $request->api_token;
         //Busquem Usuari amb el Api_Token
         $selectUser = DB::table('users')->where('api_token', $request->api_token)->first();
 
+//        return $selectUser;
         // Primero comprobaremos si estamos recibiendo todos los campos.
-        if (!$request->input('nom') || !$request->input('imatge') || !$request->input('URL') || !$request->input('categoria'))
+        if (!$request->input('nom') || !$request->input('imagen') || !$request->input('URLGame') || !$request->input('categoria'))
         {
             // Se devuelve un array errors con los errores encontrados y cabecera HTTP 422 Unprocessable Entity – [Entidad improcesable] Utilizada para errores de validación.
             // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
