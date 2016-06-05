@@ -3,20 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Joc;
+use App\Transformers\GameTransformer;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
-class JocController extends Controller
+class JocController extends ApiController
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @param GameTransformer $gameTransformer
      */
+
+    public function __construct(GameTransformer $gameTransformer)
+    {
+        $this->gameTransformer = $gameTransformer;
+    }
+
     public function index()
     {
         // Devolverá todos los fabricantes.
-        return response()->json(['status'=>'ok','data'=>Joc::all()], 200);
+        $game = Joc::all();
+
+
+//        return response()->json(['status'=>'ok','data'=>$this->gameTransformer->transformCollection($game->all())], 200);
+
+
+        return $this->respond($this->gameTransformer->transformCollection($game->all()));
     }
 
     /**

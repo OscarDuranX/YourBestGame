@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Joc;
+use App\Transformers\GameTransformer;
 use App\User;
 use Auth;
 use DB;
@@ -14,10 +15,11 @@ use Response;
 class UserJocController extends Controller
 {
 
-    public function __construct()
+    public function __construct(GameTransformer $gameTransformer)
     {
 //        $this->middleware('auth.basic',['only'=>['store','update','destroy']]);
         //TODO Descomentar permis d'usuari per accedir als metodes POST!
+        $this->gameTransformer = $gameTransformer;
     }
 
     public function index(Request $request)
@@ -36,7 +38,7 @@ class UserJocController extends Controller
             return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra un user con ese código.'])],404);
         }
 
-        return response()->json(['status'=>'ok','data'=>$user->jocs()->get()],200);
+        return response()->json(['status'=>'ok','data'=>$this->gameTransformer->transformCollection($user->jocs()->get())],200);
         //return response()->json(['status'=>'ok','data'=>$fabricante->aviones],200);
     }
 
