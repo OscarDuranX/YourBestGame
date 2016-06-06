@@ -38,7 +38,7 @@ class UserJocController extends Controller
             return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra un user con ese código.'])],404);
         }
 
-        return response()->json(['status'=>'ok','data'=>$this->gameTransformer->transformCollection($user->jocs()->get())],200);
+        return $this->gameTransformer->transformCollection($user->jocs()->get());
         //return response()->json(['status'=>'ok','data'=>$fabricante->aviones],200);
     }
 
