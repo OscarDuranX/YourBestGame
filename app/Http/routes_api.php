@@ -10,6 +10,8 @@
 Route::group(['middleware' => 'cors'], function(){
 //    Route::resource('joc','JocController',[ 'only'=>['index'] ]);
 //    Route::post('api/login','Auth\AuthController@ApiLogin');
+
+
     Route::resource('user/joc','UserJocController');
 
     Route::resource('joc/comentari','JocComentariController',[ 'except'=>['show','edit','create']]);

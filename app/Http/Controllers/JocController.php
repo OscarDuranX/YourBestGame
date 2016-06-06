@@ -23,12 +23,13 @@ class JocController extends ApiController
     public function index()
     {
 
+
         // Devolverá todos los fabricantes.
         $game = Joc::all();
 
         //dd($game);
 
-//        return response()->json(['status'=>'ok','data'=>$this->gameTransformer->transformCollection($game->all())], 200);
+//        return response()->json(['status'=>'ok','data'=>$game->all()], 200);
 
 
         return $this->respond($this->gameTransformer->transformCollection($game->all()));
