@@ -30,7 +30,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = 'http://yourbestgame.esy.es/';
 
     /**
      * Create a new authentication controller instance.
@@ -65,8 +65,10 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        //dd($data['_token']);
-        return User::create([
+
+        //header("Location: http://yourbestgame.esy.es/");
+
+       return User::create([
 
             'name' => $data['name'],
             'email' => $data['email'],
@@ -74,6 +76,7 @@ class AuthController extends Controller
             'api_token' => md5(uniqid(rand(), true)),
 
         ]);
+
     }
 
     public function ApiLogin(Request $request)
