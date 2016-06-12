@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
 
         //$this->SeedUserProva($faker);
         $this->call(UsersTableSeeder::class);
-        $this->call(JocsTableSeeder::class);
-        $this->call(ComentsJocsTableSeeder::class);
+       // $this->call(JocsTableSeeder::class);
+        //$this->call(ComentsJocsTableSeeder::class);
     }
 
     private function SeedUserProva($faker)

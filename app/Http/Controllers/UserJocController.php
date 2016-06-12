@@ -54,7 +54,7 @@ class UserJocController extends ApiController
         //Busquem Usuari amb el Api_Token
 
 
-        $selectUser = DB::table('users')->where('api_token', $request->api_token)->first();
+        $user = DB::table('users')->where('api_token', $request->api_token)->first();
 
         //return $selectUser;
 
@@ -68,7 +68,7 @@ class UserJocController extends ApiController
         }
 
        //Cerquem l'usuari
-        $user=User::find($selectUser->id);
+        //$user=User::find($selectUser->id);
 //
         if (!$user)
         {
